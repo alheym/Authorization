@@ -6,6 +6,7 @@ import { validate } from './helpers/validate';
 import { showInputError, removeInputError } from './views/form';
 import { login } from './services/auth.service';
 import { notify } from './views/notification';
+import { getNews } from './services/news.service';
 
 const { form, inputPassword, inputEmail } = UI;
 const inputs = [inputEmail, inputPassword];
@@ -28,6 +29,7 @@ async function onSubmit() {
     if(!isValidForm) return;
     try {
         await login(inputEmail.value, inputPassword.value);
+        await getNews();
         form.reset();
         notify({msg: 'Login success', className: 'alert-success'})
     } catch(err) {
