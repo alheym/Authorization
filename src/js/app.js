@@ -3,6 +3,7 @@ import '../css/style.css';
 
 import UI from './config/ui.config';
 import { validate } from './helpers/validate';
+import { showInputError, removeInputError } from './views/form';
 
 const { form, inputPassword, inputEmail } = UI;
 const inputs = [inputEmail, inputPassword];
@@ -10,12 +11,15 @@ const inputs = [inputEmail, inputPassword];
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     onSubmit();
-})
+});
+inputs.forEach(el => el.addEventListener('focus', () => removeInputError(el)));
 
 function onSubmit() {
     const isValidForm = inputs.every((el) => {
         const isValidInput = validate(el);
-
+        if (!isValidInput) {
+            showInputError(el); 
+        }
         return isValidInput;
     });
 
